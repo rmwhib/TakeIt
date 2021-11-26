@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,7 +31,10 @@ public class MyCamera extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        Log.d("hello","hello");
+
+        setContentView(R.layout.activity_camera);
 
         Button mybutton = (Button) findViewById(R.id.button);
         mybutton.setOnClickListener((i) -> {

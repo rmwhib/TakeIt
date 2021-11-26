@@ -4,14 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +34,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE_FINE_LOCATION = 1234;
 
     // private FusedLocationProviderClient fusedLocationProviderClient;
-
+    Button camera_button;
     Button takeIT_button;
     Button gotoMapbutton;
     ArrayList places;
@@ -82,17 +87,30 @@ public class MainActivity extends AppCompatActivity {
 
         takeIT_button = findViewById(R.id.button);
         gotoMapbutton = findViewById(R.id.goToMap);
+        camera_button = findViewById(R.id.button2);
 
-        takeIT_button.setOnLongClickListener(new View.OnLongClickListener() {
-
+        camera_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                Log.d("longpress","longpress");
+            public void onClick(View v) {
+                Log.d("start camera","start camera");
                 Intent startCamera = new Intent(MainActivity.this, MyCamera.class);
+                //Intent takePicture =  new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivity(startCamera);
-                return false;
             }
         });
+
+//        takeIT_button.setOnLongClickListener(new View.OnLongClickListener() {
+//
+//            @Override
+//            public boolean onLongClick(View v) {
+//                Log.d("longpress","longpress");
+//                Intent startCamera = new Intent(MainActivity.this, MyCamera.class);
+//                //Intent takePicture =  new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivity(startCamera);
+//                //startActivityForResult(takePicture);
+//                return false;
+//            }
+//        });
 
         takeIT_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
         places = new ArrayList<>();
 
     }
+
+
+
+
 
 
     @Override
@@ -171,6 +193,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+    /////////////
     private void checkSettingsAndStartLocationUpdates() {
         LocationSettingsRequest request = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest).build();
