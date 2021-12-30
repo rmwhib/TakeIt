@@ -1,5 +1,9 @@
 package com.example.takeit;
 
+
+//todo longclick on mapit opens context menu , what happens next
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,10 +20,14 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -45,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
+
+    TextView title;
 
     LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -84,10 +94,12 @@ public class MainActivity extends AppCompatActivity {
         locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-
+        title = findViewById(R.id.textView);
         takeIT_button = findViewById(R.id.button);
         gotoMapbutton = findViewById(R.id.goToMap);
         camera_button = findViewById(R.id.button2);
+
+        registerForContextMenu(takeIT_button);
 
         camera_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(startCamera);
             }
         });
+
+
 
 //        takeIT_button.setOnLongClickListener(new View.OnLongClickListener() {
 //
@@ -130,9 +144,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //long click on mapit button
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("MapIt or Take photo");
+        getMenuInflater().inflate(R.menu.example_menu, menu);
+    }
 
 
-
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.option_1:
+                savePlace();
+                return true;
+            case R.id.option_2:
+                Intent startCamera = new Intent(MainActivity.this, MyCamera.class);
+                //Intent takePicture =  new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivity(startCamera);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
     @Override
     protected void onStart() {
@@ -147,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //top right menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -191,18 +228,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startmap);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     /////////////
     private void checkSettingsAndStartLocationUpdates() {

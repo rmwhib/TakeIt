@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_basic.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_camera.xml" value="0.11736235934921034" />
+        <entry key="app/src/main/res/layout/activity_camerax.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.13269927536231885" />
         <entry key="app/src/main/res/layout/activity_map_container.xml" value="0.1" />
@@ -12,6 +13,7 @@
         <entry key="app/src/main/res/layout/fragment_maps2.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_referencemap.xml" value="0.1" />
         <entry key="app/src/main/res/layout/my_menu.xml" value="0.18541666666666667" />
+        <entry key="app/src/main/res/menu/example_menu.xml" value="0.25364583333333335" />
         <entry key="app/src/main/res/menu/game_menu.xml" value="0.18541666666666667" />
         <entry key="app/src/main/res/menu/my_menu.xml" value="0.18541666666666667" />
       </map>

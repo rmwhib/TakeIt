@@ -7,10 +7,15 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -27,6 +32,8 @@ public class MapContainer extends AppCompatActivity implements OnMapReadyCallbac
 
     private List<Marker> markers = new ArrayList<Marker>();
 
+    //MapView mapView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +45,8 @@ public class MapContainer extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            //latslngs = extras.getArra("places");
-
-            //retriee from database
-
             //intent retrieve
             Intent intent= getIntent();
             ArrayList<String> test = intent.getStringArrayListExtra("test");
@@ -53,12 +55,56 @@ public class MapContainer extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.game_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.seepictures:
+                seepictures();
+                return true;
+//            case R.id.help:
+//                showHelp();
+//                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void seepictures(){
+
+    };
+
+
     // Get a handle to the GoogleMap object and display marker.
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d("mapped", "openmap");
         CordRoomDatabase db = CordRoomDatabase.getDatabase(getApplicationContext());
         CordDao mCordDao = db.cordDao();
+
+//        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(@NonNull Marker marker) {
+//                Log.d("clicked","clicked");
+//                //open menu
+//
+//
+//
+//
+//                return false;
+//            }
+//        });
+
+
+
         List<Coordins>  listofcoords = mCordDao.getAll();
         for(int i = 0; i < listofcoords.size(); i++) {
         //for (Coordins cord: listofcoords){
@@ -70,6 +116,8 @@ public class MapContainer extends AppCompatActivity implements OnMapReadyCallbac
 //            Marker m = mMap.addMarker(new MarkerOptions()
 //                    .position(new LatLng(lat, lon))
 //                    .title(marker_title));
+
+
             markers.add(m);
 
         }
